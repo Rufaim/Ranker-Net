@@ -1,0 +1,44 @@
+# C++ objects and libs
+
+*.slo
+*.lo
+*.o
+*.a
+*.la
+*.lai
+*.dll
+*.dylib
+*.so
+
+# Qt-es
+
+/.qmake.cache
+/.qmake.stash
+*.pro.user
+*.pro.user.*
+*.qbs.user
+*.qbs.user.*
+*.moc
+moc_*.cpp
+moc_*.h
+qrc_*.cpp
+ui_*.h
+Makefile*
+build/
+doxygen/
+
+# QtCreator
+
+*.autosave
+
+# Vim .swp files
+*.swp
+
+# Python 
+*.ropeproject
+*.pyc
+*.ipynb
+
+#Sublime text
+*.sublime-*
+
