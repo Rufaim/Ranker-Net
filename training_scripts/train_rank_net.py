@@ -1,6 +1,6 @@
 import tensorflow as tf
 from data_importer import DataImporter, DetectionsLabels
-from rank_net_v2 import RankNetworkV2
+from rank_net import RankNetwork
 
 from layers import NALU, GLU, Dense
 
@@ -8,6 +8,7 @@ RANDOM_SEED = 42
 INPUT_LEN = len(DataImporter.feature_columns)
 NET_STRUCTURE = [   NALU(28,initializer=tf.contrib.layers.xavier_initializer(seed=RANDOM_SEED)), 
                     Dense(20,tf.nn.relu,initializer = tf.contrib.layers.xavier_initializer(seed=RANDOM_SEED))  ]
+
 LEARNING_RATE = 1e-4
 BATCH_SIZE = 1000
 ITERATIONS = 100000
@@ -17,14 +18,13 @@ CHECKPOINT_NAME = "model"
 CHECKPOINT_ITER = 50
 
 
-
-data_importer = DataImporter("../train_data/data.csv",seed=RANDOM_SEED)
+data_importer = DataImporter("/home/lidia/projects/Ranker-Net/Drone Dataset/data.csv")
 data_importer.load_data()
 
 alphas = [data_importer.data[data_importer.data.object_class==DetectionsLabels.DRONE.value].shape[0] / data_importer.data.shape[0],
             data_importer.data[data_importer.data.object_class!=DetectionsLabels.DRONE.value].shape[0] / data_importer.data.shape[0]]
 print("ALPHAS: ", alphas)
-model = RankNetworkV2(INPUT_LEN,NET_STRUCTURE,LEARNING_RATE,alphas)
+model = RankNetwork(INPUT_LEN,NET_STRUCTURE,LEARNING_RATE,alphas)
 
 conf = tf.ConfigProto()
 conf.gpu_options.allow_growth = True
