@@ -6,7 +6,7 @@ class NALU(object):
 		assert output_len > 0
 		self.output_len = output_len
 		self.initializer = initializer
-		self._gate_size = 1
+		self._gate_size = output_len
 
 	def __call__(self,input,scope="NALU"):
 		with tf.variable_scope(scope,reuse=tf.AUTO_REUSE):
