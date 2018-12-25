@@ -4,9 +4,10 @@ from rank_net_v2 import RankNetworkV2
 
 from layers import NALU, GLU, Dense
 
-
+RANDOM_SEED = 42
 INPUT_LEN = len(DataImporter.feature_columns)
-NET_STRUCTURE = [NALU(28), Dense(20,tf.nn.relu)]
+NET_STRUCTURE = [   NALU(28,initializer=tf.contrib.layers.xavier_initializer(seed=RANDOM_SEED)), 
+                    Dense(20,tf.nn.relu,initializer = tf.contrib.layers.xavier_initializer(seed=RANDOM_SEED))  ]
 LEARNING_RATE = 1e-4
 BATCH_SIZE = 1000
 ITERATIONS = 100000
@@ -17,7 +18,7 @@ CHECKPOINT_ITER = 50
 
 
 
-data_importer = DataImporter("../train_data/data.csv")
+data_importer = DataImporter("../train_data/data.csv",seed=RANDOM_SEED)
 data_importer.load_data()
 
 alphas = [data_importer.data[data_importer.data.object_class==DetectionsLabels.DRONE.value].shape[0] / data_importer.data.shape[0],
