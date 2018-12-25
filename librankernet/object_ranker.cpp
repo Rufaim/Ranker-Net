@@ -50,7 +50,7 @@ void InitRanker(ranker_context& ranker, std::string filename) {
             float* weights = new float[out_dim * in_dim];
 
             for(int j = 0; j < out_dim; j++) {
-                biases[j] = b.at(0).at(j);
+                biases[j] = b.at(j);
                 for(int k = 0; k < in_dim; k++) {
                     weights[j * in_dim + k] = W.at(k).at(j);
                 }
@@ -64,12 +64,10 @@ void InitRanker(ranker_context& ranker, std::string filename) {
             float* gate = new float[out_dim * in_dim];
             float* weights = new float[out_dim * in_dim];
 
-            for(int k = 0; k < in_dim; k++) {
-                gate[k] = G.at(k).at(0);
-            }
             for(int j = 0; j < out_dim; j++) {
                 for(int k = 0; k < in_dim; k++) {
                     weights[j * in_dim + k] = W.at(k).at(j);
+                    gate[j * in_dim + k] = G.at(k).at(j);
                 }
             }
             ranker.layers[i] = new Nalu(in_dim,out_dim,weights,gate);

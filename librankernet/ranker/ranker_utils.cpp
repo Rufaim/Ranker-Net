@@ -9,7 +9,7 @@ void Activation(std::string func_name, float* val, int dim) {
         }
     } else if (func_name == "S") { //Sigmoid
         for(int i = 0; i < dim; i++) {
-            val[i] = 0.5*tanh(val[i])+1;
+            val[i] = 0.5*tanh(val[i])+0.5;
         }
     }
 }
