@@ -12,6 +12,7 @@ class DetectionsLabels(enum.Enum):
 
 class DataImporter(object):
     class_ranks = {DetectionsLabels.DRONE: 2, DetectionsLabels.OTHER: 1, DetectionsLabels.BULLSHIT: 0}
+    labels = list(DetectionsLabels)
     combs = [(DetectionsLabels.DRONE, DetectionsLabels.OTHER),
             (DetectionsLabels.DRONE, DetectionsLabels.BULLSHIT)
             ]
@@ -61,10 +62,10 @@ class DataImporter(object):
     def _postprocess(self):
         self.data_per_label_train = {}
         self.data_per_label_test = {}
-        for cat in DataImporter.class_ranks.keys():
+        for cat in DataImporter.labels:
             t = self.data[self.data["object_class"] == cat.value ]
             t = t[DataImporter.feature_columns].values.astype(np.float)
-            test_bool = np.random.random(size=t.shape[0]) < self.train_test_split_portion
+            test_bool = self.state.random_sample(size=t.shape[0]) > self.train_test_split_portion
             self.data_per_label_train[cat] = t[test_bool]
             self.data_per_label_test[cat] = t[np.logical_not(test_bool)]
 
@@ -90,7 +91,7 @@ class DataImporter(object):
             batch_y = []
 
             idxs = {}
-            for cat in DataImporter.class_ranks.keys():
+            for cat in DataImporter.labels:
                 idxs[cat] = self.state.randint(0,len(data_per_label[cat]),size=L)
 
             for cat_1, cat_2 in DataImporter.combs:

@@ -1,6 +1,6 @@
 import tensorflow as tf
 from data_importer import DataImporter, DetectionsLabels
-from rank_net_v2 import RankNetworkV2
+from rank_net import RankNetwork
 
 from layers import NALU, GLU, Dense
 
@@ -24,7 +24,7 @@ data_importer.load_data()
 alphas = [data_importer.data[data_importer.data.object_class==DetectionsLabels.DRONE.value].shape[0] / data_importer.data.shape[0],
             data_importer.data[data_importer.data.object_class!=DetectionsLabels.DRONE.value].shape[0] / data_importer.data.shape[0]]
 print("ALPHAS: ", alphas)
-model = RankNetworkV2(INPUT_LEN,NET_STRUCTURE,LEARNING_RATE,alphas)
+model = RankNetwork(INPUT_LEN,NET_STRUCTURE,LEARNING_RATE,alphas)
 
 conf = tf.ConfigProto()
 conf.gpu_options.allow_growth = True
