@@ -13,7 +13,7 @@ class Dense(Layer):
 
 			self._W = tf.get_variable("W",shape=[feature_size,self.num_units],dtype=tf.float32,
 										initializer=self.initializer,trainable=True)
-			self._b = tf.get_variable("b",shape=[1,self.num_units],dtype=tf.float32,
+			self._b = tf.get_variable("b",shape=[self.num_units],dtype=tf.float32,
 										initializer=self.initializer,trainable=True)
 
 			return self.activation(tf.matmul(input,self._W)+self._b)

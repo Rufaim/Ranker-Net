@@ -10,17 +10,16 @@ Nalu::Nalu(int input_dim, int out_dim, float *weight, float *gate) :
 {}
 
 void Nalu::process(float* input,float* output) {
-    float gate = 0;
-    for(int i = 0; i < out_dim_; i++)
-        gate += gate_[i] * input[i];
-    gate = 0.5*tanh(gate)+1;
     for(int i = 0; i < out_dim_; i++) {
         float lin = 0;
         float log_ = 0;
+        float gate = 0;
         for(int j = 0; j < input_dim_; j++) {
             lin += weights_[i * input_dim_ + j] * input[j];
             log_ += weights_[i * input_dim_ + j] * log(fabs(input[j])+0.00001);
-        }
+            gate += gate_[i * input_dim_ + j] * input[i];
+        }       
+        gate = 0.5*tanh(gate)+0.5;
         output[i] = gate * lin + (1-gate) * exp(log_);
     }
 }

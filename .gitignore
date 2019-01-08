@@ -28,7 +28,6 @@ build/
 doxygen/
 
 # QtCreator
-
 *.autosave
 
 # Vim .swp files
@@ -39,6 +38,14 @@ doxygen/
 *.pyc
 *.ipynb
 
-#Sublime text
+# Sublime text
 *.sublime-*
 
+# JSON-dumps of nets
+*.json
+
+# Tensorflow checkpoint
+checkpoints
+*.index
+*.meta
+*.data-*-of-*
